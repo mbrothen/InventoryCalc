@@ -17,17 +17,55 @@
             <h1>Inventory Pro</h1>
         </div>
         <div id="menu">
-            <ul>
-                <li>Date Between Dates</li>
-                <li>Past Accept Calculator</li>
-                <li>Julian Date Converter</li>
-                <li>Security Info</li>
-
+            <ul class = "navigation">
+                <li><a href = "dayday.html">Date Between Dates</a></li>
+                <li><a href = "pastaccept.html">Past Accept Calculator</a></li>
+                <li><a href = "juliandate.html">Julian Date Converter</a></li>
+                <li><a href = "security.html">Security Info</a></li>
             </ul>
         </div>
-        <div id="content">Area For Each Tool</div>
-        <div id="footer">Footer Info</div>
+        <div id="content">
+            <div id="dayday">
+            <h2>Days Between Days</h2>
+            <form>
+                <label for="fDate">First date:</label><input type="date" id="fDate">
+
+                <label for="sDate">Second date:</label><input type="date" id="sDate">
+                <p>Result</p>
+                <p id="result"></p>
+            </form>
+            </div>
+
+
+        </div>
+        <div id="footer">
+            <p>Page for educational use only</p>
+            <p>Copyright 2018</p>
+            <p><a href="feedback.html">Feedback Welcome</a></p>
+
+        </div>
     </div>
+<script>
+    function checkOther() {
+        console.log("function");
+        var day1 = document.getElementById("fDate").valueAsDate;
+        var day2 = document.getElementById("sDate").valueAsDate;
+        console.log(day1, day2);
+        if ((day1 > 1) && (day2> 0)){
+            var diff = day1 - day2;
+            if (diff < 0) {
+                diff = (diff*-1);
+            }
+            diff = diff/1000/60/60/24; //convert utc to full days.
+            document.getElementById("result").innerHTML = diff.toString();
+
+            console.log("dates entered and checked");
+        }
+    }
+    document.getElementById("fDate").addEventListener("input", checkOther);
+    document.getElementById("sDate").addEventListener("input", checkOther);
+    console.log("listeners");
+</script>
 </body>
 
 </html>
