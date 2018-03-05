@@ -14,7 +14,7 @@ body {
     grid-gap: 1px;
     grid-template-areas:
     "h h h h h h h h h h h h"
-    "m c c c c c c c c c c c"
+    "m m c c c c c c c c c c"
     "f f f f f f f f f f f f";
 }
 a {
@@ -61,17 +61,6 @@ div {
    grid-area: f;
 
 }
-@media screen and (max-width: 640px) {
-    .wrapper {
-        grid-template-rows: 1fr 1fr 4fr;
-        grid-template-areas:
-            "h h h h h h h h h h h h"
-            "m m m m m m m m m m m m"
-            "c c c c c c c c c c c c"
-            "f f f f f f f f f f f f";
-
-    }
-}
 @media screen and (max-width: 1020px) {
     .wrapper {
         grid-template-rows: 1fr 4fr 1fr;
@@ -79,6 +68,17 @@ div {
                 "h h h h h h h h h h h h"
                 "m m c c c c c c c c c c"
                 "f f f f f f f f f f f f";
+
+    }
+}
+@media screen and (max-width: 640px) {
+    .wrapper {
+        grid-template-rows: 1fr .5fr 2fr .5fr;
+        grid-template-areas:
+            "h h h h h h h h h h h h"
+            "m m m m m m m m m m m m"
+            "c c c c c c c c c c c c"
+            "f f f f f f f f f f f f";
 
     }
 }
