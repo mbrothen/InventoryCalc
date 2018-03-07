@@ -14,7 +14,7 @@
 <body>
     <div class="wrapper">
         <div id="header">
-            <h1>Inventory Pro</h1>
+            <h1>Inventory Calc</h1>
         </div>
         <div id="menu">
             <ul class = "navigation">
@@ -25,7 +25,7 @@
             </ul>
         </div>
         <div id="content">
-            <div id="dayday">
+            <div id="dayday" class="card">
             <h2>Days Between Days</h2>
             <form>
                 <label for="fDate">First date:</label><input type="date" id="fDate">
@@ -34,6 +34,16 @@
                 <p>Result</p>
                 <p id="result"></p>
             </form>
+            </div>
+            <div id="dayafter" class="card">
+                <h2>Days After Date</h2>
+                <form>
+                    <label for="afterDate">Date:</label><input type="date" id="afterDate">
+
+                    <label for="sDays">Number of Days</label><input type="number" id="sDays">
+                    <p>Result</p>
+                    <p id="resultdayafter"></p>
+                </form>
             </div>
 
 
@@ -62,8 +72,23 @@
             console.log("dates entered and checked");
         }
     }
+    function checkSecond() {
+        console.log("checking input");
+        var startDate = document.getElementById("afterDate").valueAsDate;
+        var numDays = document.getElementById("sDays").value;
+        if ((startDate != null) && (numDays != null)) {
+            console.log(startDate.getTime()+ "  "+numDays);
+            //something broken here
+            var count = (startDate.getTime() + (numDays*1000*60*60*24));
+            console.log(count);
+        }
+    }
+    //start first calc
     document.getElementById("fDate").addEventListener("input", checkOther);
     document.getElementById("sDate").addEventListener("input", checkOther);
+    //start second calc
+    document.getElementById("afterDate").addEventListener("input", checkSecond);
+    document.getElementById("sDays").addEventListener("input", checkSecond);
     console.log("listeners");
 </script>
 </body>
