@@ -76,11 +76,15 @@
         console.log("checking input");
         var startDate = document.getElementById("afterDate").valueAsDate;
         var numDays = document.getElementById("sDays").value;
-        if ((startDate != null) && (numDays != null)) {
-            console.log(startDate.getTime()+ "  "+numDays);
-            //something broken here
-            var count = (startDate.getTime() + (numDays*1000*60*60*24));
-            console.log(count);
+        if ((startDate != null) && (numDays != null) && (numDays != "")) {
+		console.log(startDate + "   " + numDays);
+			var numDays = (numDays*86400000)+86400000;  //not sure why another day worth of ms is required.
+			console.log(startDate.getTime()+ "  "+numDays);
+            var count = (startDate.getTime() + numDays);
+			var finalDate = new Date(count);  //turns count to date
+			console.log(stuff +  "  new version with date()");
+			//add to DOM and convert date to US dating
+			document.getElementById("resultdayafter").innerHTML = finalDate.toLocaleDateString("en-US");
         }
     }
     //start first calc
