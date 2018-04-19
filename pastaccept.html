@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css" />
+    <script src="modernizr.custom.js"></script>
+    <!--Javascript file here-->
+    <title>Inventory Pro</title>
+</head>
+
+<body>
+<div class="wrapper">
+    <div id="header">
+        <h1>Inventory Calc</h1>
+    </div>
+    <div id="menu">
+        <ul class = "navigation">
+            <li><a href = "index.html">Date Between Dates</a></li>
+            <li><a href = "pastaccept.html">Past Accept Calculator</a></li>
+            <li><a href = "juliandate.html">Julian Date Converter</a></li>
+            <li><a href = "security.html">Security Info</a></li>
+        </ul>
+    </div>
+    <div id="content">
+        <div id="past" class="card">
+            <h2>Past Accept Calculator</h2>
+            <form>
+                <label for="rdate">Rotation Date:   </label><input type="date" id="rdate">
+                <br>
+                <div id="hidden" style="visibility: hidden; display: none;">
+                <label for="shelf">Shelf Life: </label><input type="number" id="shelf">
+                <br>
+                </div>
+                <label for="cases">Number of Cases: </label><input type="number" id="cases">
+                <br>
+                <label for="onhand">Cases on Hand:   </label><input type="number" id="onhand">
+                <br>
+                <label for="forecast">Sales Forecast:   </label><input type="number" id="forecast">
+                <p>Result</p>
+                <p id="result" style="font-weight: bolder; font-size: 3em;"></p>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+<div id="footer">
+    <p>Page for educational use only</p>
+    <p>Copyright 2018</p>
+    <p><a href="feedback.html">Feedback Welcome</a></p>
+
+</div>
+</div>
+<script>
+    var rDated;
+    function checkRotation() {
+        //DISPLAY SHELF FIELD if production dated item.
+        var rotation = document.getElementById("rdate").valueAsDate;
+        var today = new Date();
+        today.getDate();
+        if (today > rotation) {
+            document.getElementById("hidden").style.visibility = "visible";
+            document.getElementById("hidden").style.display = "inherit";
+
+            rDated = true;
+
+        } else {
+            document.getElementById("hidden").style.visibility = "hidden";
+            document.getElementById("hidden").style.display = "none";
+
+            rDated = false;
+        }
+       // calculate();
+    }
+    function validate(){
+        //VALIDATE FORM DATA***********************
+        var inputs = document.getElementsByTagName('input');
+        var regex=/^[0-9]+$/;
+        var error = 0;
+        for(var i = 0; i < inputs.length; i++) {
+            var temp = inputs[i].value;
+            if((inputs[i].type === 'number') && (inputs[i].style.display = "inline-block")) {
+                if (!temp.match(regex)) {
+                    error++;
+                }
+            } else if(inputs[i].type === 'date') {
+                if (isNaN(Date.parse(temp))) {
+                    error++;
+                }
+                }
+        }
+
+        if (rDated = true){
+            error--;
+            //correct for error being added when box is not visible.  Less code involved but slightly hacky
+        }
+        if (error > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function calculate() {
+        var rotation = document.getElementById("rdate").valueAsDate;
+        var cases = document.getElementById("cases").value;
+        var onhand = document.getElementById("onhand").value;
+        var forecast = document.getElementById("forecast").value;
+        var shelf = document.getElementById("shelf").value;
+        if (validate()) {
+            if (rDated = true) {
+                //turns production date to expiration date based on manufacture date and shelf life loaded
+                var eDate = ((shelf*86400000)+86400000) + (rotation.getTime()); //millisends at E date
+                var temp2 = new Date(eDate);
+                console.log(temp2);
+            } else {
+                eDate = rotation;
+            }
+        var today = new Date();
+   //     today = today.getTime();
+        console.log(today);
+        var saleDays = ((eDate-today)/86400000);
+        saleDays = Math.round(saleDays);
+        var perDay = forecast / 7;
+        var currentStock = onhand / perDay;
+        var newStock = cases / perDay;
+        var total = newStock + currentStock;
+            console.log("sale days " + saleDays + " per day " + perDay + " On Hand " + currentStock + " newStock " + newStock + " new - current " + total);
+
+            if (total > saleDays){
+            document.getElementById("result").innerHTML = "REJECT";
+        } else if ((total >= (saleDays-3)) && total <= saleDays) {
+            document.getElementById("result").innerHTML = "CLOSE";
+        } else {
+            document.getElementById("result").innerHTML = "KEEP";
+        }
+
+
+
+        }
+
+    }
+
+
+    if (document.addEventListener) {
+        document.getElementById("rdate").addEventListener("input", checkRotation);
+        document.getElementById("cases").addEventListener("input", calculate);
+        document.getElementById("onhand").addEventListener("input", calculate);
+        document.getElementById("forecast").addEventListener("input", calculate);
+        document.getElementById("shelf").addEventListener("input", calculate);
+    } else if (document.attachEvent){
+        document.getElementById("rdate").attachEvent("input", checkRotation);
+        document.getElementById("cases").attachEvent("input", calculate);
+        document.getElementById("onhand").attachEvent("input", calculate);
+        document.getElementById("forecast").attachEvent("input", calculate);
+        document.getElementById("shelf").attachEvent("input", calculate);
+
+    }
+
+</script>
+</body>
+
+</html>

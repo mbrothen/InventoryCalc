@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css" />
+    <script src="modernizr.custom.js"></script>
+    <!--Javascript file here-->
+    <title>Inventory Pro</title>
+</head>
+
+<body>
+<div class="wrapper">
+    <div id="header">
+        <h1>Inventory Calc</h1>
+    </div>
+    <div id="menu">
+        <ul class = "navigation">
+            <li><a href = "dayday.html">Date Between Dates</a></li>
+            <li><a href = "pastaccept.html">Past Accept Calculator</a></li>
+            <li><a href = "juliandate.html">Julian Date Converter</a></li>
+            <li><a href = "security.html">Security Info</a></li>
+        </ul>
+    </div>
+    <div id="content">
+        <div id="dayday" class="card">
+            <h2>Days Between Days</h2>
+            <form>
+                <label for="fDate">First date:</label><input type="date" id="fDate">
+
+                <label for="sDate">Second date:</label><input type="date" id="sDate">
+                <p>Result</p>
+                <p id="result"></p>
+            </form>
+        </div>
+        <div id="dayafter" class="card">
+            <h2>Days After Date</h2>
+            <form>
+                <label for="afterDate">Date:</label><input type="date" id="afterDate">
+
+                <label for="sDays">Number of Days</label><input type="number" id="sDays">
+                <p>Result</p>
+                <p id="resultdayafter"></p>
+            </form>
+        </div>
+
+
+    </div>
+    <div id="footer">
+        <p>Page for educational use only</p>
+        <p>Copyright 2018</p>
+        <p><a href="feedback.html">Feedback Welcome</a></p>
+
+    </div>
+</div>
+<script>
+    function checkOther() {
+        console.log("function");
+        var day1 = document.getElementById("fDate").valueAsDate;
+        var day2 = document.getElementById("sDate").valueAsDate;
+        console.log(day1, day2);
+        if ((day1 > 1) && (day2> 0)){
+            var diff = day1 - day2;
+            if (diff < 0) {
+                diff = (diff*-1);
+            }
+            diff = diff/1000/60/60/24; //convert utc to full days.
+            document.getElementById("result").innerHTML = diff.toString();
+
+            console.log("dates entered and checked");
+        }
+    }
+    function checkSecond() {
+        console.log("checking input");
+        var startDate = document.getElementById("afterDate").valueAsDate;
+        var numDays = document.getElementById("sDays").value;
+        if ((startDate != null) && (numDays != null) && (numDays != "")) {
+            console.log(startDate + "   " + numDays);
+            var numDays = (numDays*86400000)+86400000;  //not sure why another day worth of ms is required.
+            console.log(startDate.getTime()+ "  "+numDays);
+            var count = (startDate.getTime() + numDays);
+            var finalDate = new Date(count);  //turns count to date
+            console.log(stuff +  "  new version with date()");
+            //add to DOM and convert date to US dating
+            document.getElementById("resultdayafter").innerHTML = finalDate.toLocaleDateString("en-US");
+        }
+    }
+    //start first calc
+    document.getElementById("fDate").addEventListener("input", checkOther);
+    document.getElementById("sDate").addEventListener("input", checkOther);
+    //start second calc
+    document.getElementById("afterDate").addEventListener("input", checkSecond);
+    document.getElementById("sDays").addEventListener("input", checkSecond);
+    console.log("listeners");
+</script>
+</body>
+
+</html>
