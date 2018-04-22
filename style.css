@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,700,500italic,900,700italic,900italic);
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
 
 body {
     font-family: 'Roboto', sans-serif;
@@ -11,14 +12,21 @@ body {
 
 .wrapper {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: .5fr 2fr 2fr 1fr;
+    grid-template-columns: repeat(6, 1fr);
+  /*  grid-template-rows: .5fr .5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;*/
+    grid-template-rows: none;
+
     grid-gap: 1px;
-    grid-template-areas:
-    "h h h h h h h h h h h h"
-    "m m c c c c c c c c c c"
-    "m m c c c c c c c c c c"
-    "f f f f f f f f f f f f";
+    /*
+        grid-template-areas:
+        "h h h h h h h h h h h h"
+        "m m c c c c c c c c c c"
+        "m m c c c c c c c c c c"
+        "f f f f f f f f f f f f";*/
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+    grid-template-areas: "h h h h h h" "m m m m m m" "c c c c c c" "c c c c c c" "c c c c c c" "c c c c c c" "c c c c c c" "c c c c c c" "f f f f f f";
 }
 a {
     color: #777777;
@@ -33,27 +41,47 @@ div {
 }
 #header {
     grid-area: h;
+    max-height: 20%;
     padding: 5px;
-    font-size: 2em;
+/*    font-size: 2em;*/
+    font-size: 40pt;
     color: #fff;
+    font-family: 'Orbitron', sans-serif;
+
+}
+#header h1 {
+    margin: 0;
 }
 #menu {
     grid-area: m;
+    grid-template-rows: minmax(50px, 150px);
+    max-height: 20%;
+
 }
 #menu ul li {
     list-style: none;
     color: #777;
     line-height: 1.6;
+    font-family: 'Orbitron', sans-serif;
+    padding: 10px;
+
 
 }
 .navigation {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    justify-content: center;
     list-style: none;
     margin: 0;
     padding: 0;
 }
+.navigation ul {
+    display:table;
+}
 .navigation li {
-    padding: 0;
-    margin: 0;
+    display: table-cell;
     height: 100%;
 }
 #content {
@@ -65,6 +93,7 @@ div {
     justify-content: center;
     align-items: flex-start;
     align-content: center;
+    height: auto;
 
 }
 .card {
@@ -74,7 +103,18 @@ div {
     padding: 50px;
     background-color: #FFF;
 }
+.card ul {
+    padding-left: 0pt;
+    text-align: left;
 
+}
+.card li {
+    list-style-type:none;
+
+}
+#education ul{
+    text-align: center;
+}
 .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
@@ -86,6 +126,20 @@ div {
 	padding-top: 10%;
     padding-bottom: 10%;
 }
+#security {
+    max-width: 40%;
+
+}
+#feedback input{
+    text-align: left;
+
+}
+label {
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+}
+
 .container {
     padding: 2px 16px;
 }
@@ -100,33 +154,100 @@ div {
 * FORMS
  */
 
-input, textarea, select, button {
-    width : 150px;
-    margin: 0;
-
-    -webkit-box-sizing: border-box; /* For legacy WebKit based browsers */
-    -moz-box-sizing: border-box; /* For legacy (Firefox <29) Gecko based browsers */
-    box-sizing: border-box;
+form {
+    margin: 0 auto;
+    display: inline-block;
 }
 
+input[type=text],             /*fancy form items*/
+textarea,
+select {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border: 1px solid #BEBEBE;
+    padding: 7px;
+    margin: 0px;
+    -webkit-transition: all 0.20s ease-in-out;
+    -moz-transition: all 0.20s ease-in-out;
+    -ms-transition: all 0.20s ease-in-out;
+    -o-transition: all 0.20s ease-in-out;
+    outline: none;
+}
+
+input[type=text]:focus,
+input[type=email]:focus,      /*fancy fancy fancy*/
+textarea:focus,
+select:focus {
+    -moz-box-shadow: 0 0 8px #88D5E9;
+    -webkit-box-shadow: 0 0 8px #88D5E9;
+    box-shadow: 0 0 8px #88D5E9;
+    border: 1px solid #88D5E9;
+}
+
+input[type=submit],
+input[type=reset] {
+    background: #4B99AD;
+    padding: 8px 15px 8px 15px;
+    border: none;
+    color: #fff;
+}
+
+input[type=submit]:hover,
+input[type=reset]:hover {
+    background: #4691A4;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
 @media screen and (max-width: 1020px) {
     .wrapper {
-        grid-template-rows: 1fr 4fr 1fr;
+  /*      grid-template-rows: .5fr .5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr .5fr;*/
+        grid-template-rows: none;
         grid-template-areas:
-                "h h h h h h h h h h h h"
-                "m m c c c c c c c c c c"
-                "f f f f f f f f f f f f";
+                "h h h h h h"
+                "m m m m m m"
+                "c c c c c c"
+                "c c c c c c"
+                "c c c c c c"
+                "c c c c c c"
+                "c c c c c c"
+                "c c c c c c"
+                "c c c c c c"
+                "c c c c c c"
+                "f f f f f f";
+        width: 90%;
+        margin-left: 5%;
+        margin-right: 5%;
 
     }
+    .
 }
 @media screen and (max-width: 640px) {
     .wrapper {
-        grid-template-rows: 1fr .5fr 2fr .5fr;
+/*        grid-template-rows: .5fr .5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr .5fr;
+only generating rows as needed, stops excess open area, leaving here if I need to switch back
+*/
+        grid-template-rows: none;
         grid-template-areas:
-            "h h h h h h h h h h h h"
-            "m m m m m m m m m m m m"
-            "c c c c c c c c c c c c"
-            "f f f f f f f f f f f f";
+            "h h h h h h"
+            "m m m m m m"
+            "c c c c c c"
+            "c c c c c c"
+            "c c c c c c"
+            "c c c c c c"
+            "c c c c c c"
+            "c c c c c c"
+            "c c c c c c"
+            "c c c c c c"
+            "f f f f f f";
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    #header {
+        font-size: 7vw;
 
     }
 }
+

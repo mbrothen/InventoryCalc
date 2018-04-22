@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css" />
+    <script src="modernizr.custom.js"></script>
+    <!--Javascript file here-->
+    <title>Inventory Calc</title>
+</head>
+
+<body>
+<div class="wrapper">
+    <div id="header">
+        <h1>Inventory Calc</h1>
+    </div>
+    <div id="menu">
+        <ul class = "navigation">
+            <li><a href = "index.html">Home</a></li>
+            <li><a href = "dayday.html">Days Between Days</a></li>
+            <li><a href = "dayafter.html">Days After Date</a></li>
+            <li><a href = "juliandate.html">Julian Date Converter</a></li>
+            <li><a href = "pastaccept.html">Past Accept Calculator</a></li>
+            <li><a href = "security.html">Security Info</a></li>
+        </ul>
+    </div>
+    <div id="content">
+        <div id="feedback" class="card">
+            <h2>Leave Us Some Feedback</h2>
+            <form name="feedback">
+                <label for="select">Feedback Type:  </label> <select id="select">
+                <option value ="bug">Bug Report</option>
+                <option value ="suggest">Suggestion</option>
+                <option value="thanks">Thanks</option>
+                </select>
+                <br>
+                <label for="name">Name: </label> <input type="text" id="name">
+                <br>
+                <label for="reply">Email Address: </label> <input type="text" id="reply">
+                <span class='error-message' id='email-error'></span>
+
+                <br>
+                <label for="subject">Subject: </label> <input type="text" id="subject">
+                <br>
+                <label for="message">Message</label><br><textarea id="message" rows="8" cols="50"></textarea><br>
+                <span class='error-message' id='message-error'></span>
+                <br>
+                <button type="button" value="submit" id = "submit">Submit</button>
+                <button type="reset" value="Reset">Reset</button>
+            </form>
+        </div>
+
+
+    </div>
+    <div id="footer">
+        <p>Page for educational use only</p>
+        <p>Copyright 2018</p>
+        <p><a href="feedback.html">Feedback Welcome</a></p>
+
+    </div>
+</div>
+<script>
+    var sendMessage = new Object();
+    var stringify;
+    var error = true;
+    var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    function createMessage() {
+        var type = document.getElementById("select");
+        var name = document.getElementById("name");
+        var email = document.getElementById("reply");
+        var subject = document.getElementById("subject");
+        var message = document.getElementById("message");
+        if ((type.value !== "") && (name.value !== "") && (email.value !== "") && (subject.value !== "") && (message.value!== "")) {
+            sendMessage = {};
+            if (!emailRegex.test(email.value)) {
+                error = true
+                document.getElementById("email-error").innerHTML = "INVALID EMAIL";
+                sendMessage = {};
+                return
+            } else {
+                sendMessage["email"] = email.value;
+                document.getElementById("email-error").innerHTML = "";
+
+            }
+            sendMessage["name"] = name.value;
+            sendMessage["subject"] = subject.value;
+            sendMessage["type"] = type.value;
+            sendMessage["message"] = message.value;
+            error = false;
+        } else {
+            error = true;
+            sendMessage = {};
+        }
+        console.log(sendMessage);
+
+    }
+    function process() {
+        console.log("processing");
+        if (!error) {
+            document.getElementById("message-error").innerHTML = "";
+            stringify = JSON.stringify(sendMessage);
+            //call php email processor here
+            var xhr = new XMLHttpRequest();
+            var url = "contact.php";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    console.log(json.email + ", " + json.password);
+                }
+            };
+            xhr.send(stringify);
+            document.getElementById("feedback").reset();
+
+            console.log(stringify);
+        alert("Message Sent");}
+        else {
+            document.getElementById("message-error").innerHTML = "Please Complete All Fields";
+        }
+    }
+    function createListeners(){
+        console.log("listeners");
+        var type = document.getElementById("select");
+        var name = document.getElementById("name");
+        var email = document.getElementById("reply");
+        var subject = document.getElementById("subject");
+        var message = document.getElementById("message");
+        if (type.addEventListener){
+            type.addEventListener("change", createMessage, false);
+            name.addEventListener("change", createMessage, false);
+            email.addEventListener("change", createMessage, false);
+            subject.addEventListener("change", createMessage, false);
+            message.addEventListener("change", createMessage, false);
+        } else if (type.attachEvent) {
+            type.attachEvent("onchange", createMessage);
+            name.attachEvent("onchange", createMessage);
+            email.attachEvent("onchange", createMessage);
+            subject.attachEvent("onchange", createMessage);
+            message.attachEvent("onchange", createMessage);
+        }
+        var button = document.getElementById("submit");
+        if (button.addEventListener) {
+            button.addEventListener("click", process, false);
+        } else if (button.attachEvent) {
+            button.attachEvent("onclick", process);
+        }
+        }
+    if (window.addEventListener) {
+    window.addEventListener('load', createListeners, false); }
+    else if (window.attachEvent){
+    window.attachEvent("onload", ceateListeners);
+    }
+
+</script>
+</body>
+
+</html>

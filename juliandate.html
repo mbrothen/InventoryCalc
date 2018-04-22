@@ -18,31 +18,22 @@
     </div>
     <div id="menu">
         <ul class = "navigation">
-            <li><a href = "dayday.html">Date Between Dates</a></li>
-            <li><a href = "pastaccept.html">Past Accept Calculator</a></li>
+            <li><a href = "index.html">Home</a></li>
+            <li><a href = "dayday.html">Days Between Days</a></li>
+            <li><a href = "dayafter.html">Days After Date</a></li>
             <li><a href = "juliandate.html">Julian Date Converter</a></li>
+            <li><a href = "pastaccept.html">Past Accept Calculator</a></li>
             <li><a href = "security.html">Security Info</a></li>
         </ul>
     </div>
     <div id="content">
         <div id="dayday" class="card">
-            <h2>Days Between Days</h2>
+            <h2>Julian Date Converter</h2>
             <form>
-                <label for="fDate">First date:</label><input type="date" id="fDate">
-
-                <label for="sDate">Second date:</label><input type="date" id="sDate">
+                <label for="jDate">Julian date: </label><input type="number" id="jDate">
+                <br>
                 <p>Result</p>
-                <p id="result"></p>
-            </form>
-        </div>
-        <div id="dayafter" class="card">
-            <h2>Days After Date</h2>
-            <form>
-                <label for="afterDate">Date:</label><input type="date" id="afterDate">
-
-                <label for="sDays">Number of Days</label><input type="number" id="sDays">
-                <p>Result</p>
-                <p id="resultdayafter"></p>
+                <p id="result" style="font-weight: bolder; font-size: 3em;">&nbsp;</p>
             </form>
         </div>
 
@@ -55,45 +46,57 @@
 
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-    function checkOther() {
-        console.log("function");
-        var day1 = document.getElementById("fDate").valueAsDate;
-        var day2 = document.getElementById("sDate").valueAsDate;
-        console.log(day1, day2);
-        if ((day1 > 1) && (day2> 0)){
-            var diff = day1 - day2;
-            if (diff < 0) {
-                diff = (diff*-1);
-            }
-            diff = diff/1000/60/60/24; //convert utc to full days.
-            document.getElementById("result").innerHTML = diff.toString();
 
-            console.log("dates entered and checked");
+
+    //PROGRAM WITH JQUERY AND EXCEPTION HANDLING
+    function julainDate() {
+        var date = $("#jDate").val();
+        //var date = document.getElementById("jDate").value;
+        var result;
+        console.log(date);
+        switch(date.length) {
+            case 3:
+                if (date > 366) { ///check for date code over 1 year (leap year
+                    //document.getElementById('result').innerHTML = "Invalid date";
+                    $('#result').html("Invalid date");
+                    $('#result').css("color", "red");
+
+                } else {
+                    date = date * 86400000;
+                    console.log("Julian in MS " + date);
+                    var d = new Date();
+                    var n = d.getFullYear();
+                    var startString = "01-01-" + n;
+                    var start = new Date(startString);
+                    start = start.getTime();
+                    result = (start + date) - 86400000;
+                    var print = new Date(result);
+                    console.log(start + " start");
+                    //document.getElementById('result').innerHTML = print.toLocaleDateString();
+                    $('#result').html(print.toLocaleDateString());
+                    $('#result').css("color", "black");
+
+                }
+                break;
+            default:
+                //exceptions for the form.  Requires 3 digit julian date or flags error
+                //document.getElementById('result').innerHTML = "Enter 3 Digits";
+                $('#result').html("Enter 3 Digits");
+                $('#result').css("color", "red");
+                break;
+
         }
     }
-    function checkSecond() {
-        console.log("checking input");
-        var startDate = document.getElementById("afterDate").valueAsDate;
-        var numDays = document.getElementById("sDays").value;
-        if ((startDate != null) && (numDays != null) && (numDays != "")) {
-            console.log(startDate + "   " + numDays);
-            var numDays = (numDays*86400000)+86400000;  //not sure why another day worth of ms is required.
-            console.log(startDate.getTime()+ "  "+numDays);
-            var count = (startDate.getTime() + numDays);
-            var finalDate = new Date(count);  //turns count to date
-            console.log(stuff +  "  new version with date()");
-            //add to DOM and convert date to US dating
-            document.getElementById("resultdayafter").innerHTML = finalDate.toLocaleDateString("en-US");
-        }
-    }
-    //start first calc
-    document.getElementById("fDate").addEventListener("input", checkOther);
-    document.getElementById("sDate").addEventListener("input", checkOther);
-    //start second calc
-    document.getElementById("afterDate").addEventListener("input", checkSecond);
-    document.getElementById("sDays").addEventListener("input", checkSecond);
-    console.log("listeners");
+    $("#jDate").on("input", julainDate); //create event listener
+    /*
+    if (document.addEventListener){
+        document.getElementById("jDate").addEventListener("input", julianDate);
+
+    } else if (document.attachEvent) {
+        document.getElementById("jDate").attachEvent("input", julianDate);
+    }*/
 </script>
 </body>
 

@@ -18,33 +18,37 @@
     </div>
     <div id="menu">
         <ul class = "navigation">
-            <li><a href = "dayday.html">Date Between Dates</a></li>
-            <li><a href = "pastaccept.html">Past Accept Calculator</a></li>
+            <li><a href = "index.html">Home</a></li>
+            <li><a href = "dayday.html">Days Between Days</a></li>
+            <li><a href = "dayafter.html">Days After Date</a></li>
             <li><a href = "juliandate.html">Julian Date Converter</a></li>
+            <li><a href = "pastaccept.html">Past Accept Calculator</a></li>
             <li><a href = "security.html">Security Info</a></li>
         </ul>
     </div>
     <div id="content">
-        <div id="dayday" class="card">
-            <h2>Days Between Days</h2>
-            <form>
-                <label for="fDate">First date:</label><input type="date" id="fDate">
+        <div id="education" class="card">
+            <h2>Javascript Security</h2>
+            <p>Setting up proper browser security is important in keeping your personal information safe while browsing the internet.  We recommend installing the following browser plugins to better manage your browser security</p>
+            <ul id = "securityInfor">
+                <li>Block unwanted ads with uBlock <a href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm?hl=en">Chrome</a> <a href="https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/">Firefox</a></li>
+                <li>Stop javascript from running automatically <a href="https://chrome.google.com/webstore/detail/scriptsafe/oiigbmnaadbkfbmpbfijlflahbdbdgdf?hl=en-US">Chrome</a> <a href="https://addons.mozilla.org/en-US/firefox/addon/noscript/">Firefox</a></li>
+                <li>Restrict tracking cookies from sending your browsing data around the web <a href="https://chrome.google.com/webstore/detail/ghostery-%E2%80%93-privacy-ad-blo/mlomiejdfkolichcflejclcbmpeaniij?hl=en">Chrome</a> <a href="https://addons.mozilla.org/en-US/firefox/addon/ghostery/">Firefox</a></li>
+            </ul>
 
-                <label for="sDate">Second date:</label><input type="date" id="sDate">
-                <p>Result</p>
-                <p id="result"></p>
-            </form>
         </div>
-        <div id="dayafter" class="card">
-            <h2>Days After Date</h2>
-            <form>
-                <label for="afterDate">Date:</label><input type="date" id="afterDate">
+        <div id="geo" class="card">
+        <h2>Geolocation Data</h2>
+        <ul id = "geoData"></ul>
 
-                <label for="sDays">Number of Days</label><input type="number" id="sDays">
-                <p>Result</p>
-                <p id="resultdayafter"></p>
-            </form>
+    </div>
+        <div id="security" class="card">
+            <h2>Computer Information</h2>
+            <ul id="navigator">
+
+            </ul>
         </div>
+
 
 
     </div>
@@ -55,45 +59,62 @@
 
     </div>
 </div>
-<script>
-    function checkOther() {
-        console.log("function");
-        var day1 = document.getElementById("fDate").valueAsDate;
-        var day2 = document.getElementById("sDate").valueAsDate;
-        console.log(day1, day2);
-        if ((day1 > 1) && (day2> 0)){
-            var diff = day1 - day2;
-            if (diff < 0) {
-                diff = (diff*-1);
-            }
-            diff = diff/1000/60/60/24; //convert utc to full days.
-            document.getElementById("result").innerHTML = diff.toString();
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-            console.log("dates entered and checked");
+<script>
+    var navigatorList = "<li>";
+    var str = "";
+
+    function navigators(){
+        var list = document.getElementById("navigator");
+        for(var property in navigator){
+            str = "<b>" + property + ":</b> " + navigator[property];
+            navigatorList = navigatorList + str + "</li><li>"
         }
+        list.innerHTML = navigatorList;
     }
-    function checkSecond() {
-        console.log("checking input");
-        var startDate = document.getElementById("afterDate").valueAsDate;
-        var numDays = document.getElementById("sDays").value;
-        if ((startDate != null) && (numDays != null) && (numDays != "")) {
-            console.log(startDate + "   " + numDays);
-            var numDays = (numDays*86400000)+86400000;  //not sure why another day worth of ms is required.
-            console.log(startDate.getTime()+ "  "+numDays);
-            var count = (startDate.getTime() + numDays);
-            var finalDate = new Date(count);  //turns count to date
-            console.log(stuff +  "  new version with date()");
-            //add to DOM and convert date to US dating
-            document.getElementById("resultdayafter").innerHTML = finalDate.toLocaleDateString("en-US");
-        }
+    function geoData() {
+        /*
+        *
+        * This function using the ip-api service to get user information
+        * if you have ublock or adblock installed this call will most likely fail and will display
+        *
+         */
+        var request = new XMLHttpRequest();
+        var geoList = "<li>";
+        var string = "";
+        request.open('GET', 'http://ip-api.com/json?callback=', true);
+
+        request.onload = function() {
+            if (request.status >= 200 && request.status < 400) {
+                // Success!
+                var data = JSON.parse(request.responseText);
+                for(var prop in data) {
+                    string = "<b>" + prop + ":</b> " + data[prop];
+                    geoList = geoList + string + " </li><li>";
+                }
+                document.getElementById("geoData").innerHTML = geoList;
+            } else {
+                // We reached our target server, but it returned an error
+                console.log("connected error");
+                document.getElementById("geoData").innerHTML = "You are blocking Geo Location Data.  Good work!"
+
+
+            }
+        };
+
+        request.onerror = function() {
+            // There was a connection error of some sort
+            console.log("connection error");
+            document.getElementById("geoData").innerHTML = "You are blocking Geo Location Data.  Good work!"
+
+
+        };
+
+        request.send();
     }
-    //start first calc
-    document.getElementById("fDate").addEventListener("input", checkOther);
-    document.getElementById("sDate").addEventListener("input", checkOther);
-    //start second calc
-    document.getElementById("afterDate").addEventListener("input", checkSecond);
-    document.getElementById("sDays").addEventListener("input", checkSecond);
-    console.log("listeners");
+    navigators();
+    geoData();
 </script>
 </body>
 

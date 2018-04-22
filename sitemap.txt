@@ -1,0 +1,16 @@
+Site Map for Inventory Calc
+
+
+http://apollo.gtc.edu/~mbrothen/javascript/InventoryCalc/index.html
+
+http://apollo.gtc.edu/~mbrothen/javascript/InventoryCalc/dayday.html
+
+http://apollo.gtc.edu/~mbrothen/javascript/InventoryCalc/dayafter.html
+
+http://apollo.gtc.edu/~mbrothen/javascript/InventoryCalc/juliandate.html
+
+http://apollo.gtc.edu/~mbrothen/javascript/InventoryCalc/pastaccept.html
+
+http://apollo.gtc.edu/~mbrothen/javascript/InventoryCalc/security.html
+
+http://apollo.gtc.edu/~mbrothen/javascript/InventoryCalc/feedback.html
